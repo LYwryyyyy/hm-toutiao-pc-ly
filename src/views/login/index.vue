@@ -27,6 +27,8 @@
 </template>
 
 <script>
+// 导入封装好的local
+import local from '@/utils/local'
 export default {
   data () {
     //   手机号校验规则
@@ -40,8 +42,8 @@ export default {
     }
     return {
       LoginForm: {
-        mobile: '',
-        code: ''
+        mobile: '13911111111',
+        code: '246810'
       },
       LoginRule: {
         //   trigger:blur是失去焦点
@@ -69,6 +71,8 @@ export default {
           this.$http
             .post('authorizations', this.LoginForm)
             .then(res => {
+              // 保存用户信息(token数据)
+              local.setUser(res.data.data)
               //   成功
               this.$router.push('/')
             })
