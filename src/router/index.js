@@ -10,6 +10,8 @@ import Login from '@/views/login'
 import Home from '@/views/home'
 // 首页
 import Welcome from '@/views/welcome'
+// 内容管理
+import Contents from '@/views/contents'
 // 404
 import notFound from '@/views/404'
 
@@ -26,10 +28,17 @@ const router = new VueRouter({
     {
       path: '/',
       component: Home,
-      children: [{
-        path: '/',
-        component: Welcome
-      }]
+      children: [
+        // 欢迎
+        {
+          path: '/',
+          component: Welcome
+        },
+        {
+          path: '/contents',
+          component: Contents
+        }
+      ]
     },
     // 404页面
     {
