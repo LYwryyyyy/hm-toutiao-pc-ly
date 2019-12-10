@@ -27,7 +27,7 @@
           <i class="el-icon-picture"></i>
           <span slot="title">素材管理</span>
         </el-menu-item>
-        <el-menu-item index="/passages">
+        <el-menu-item index="/publish">
           <i class="el-icon-s-promotion"></i>
           <span slot="title">发布文章</span>
         </el-menu-item>
@@ -77,8 +77,18 @@ export default {
   data () {
     return {
       // 侧边栏是否展开
-      isOpen: true
+      isOpen: true,
+      // 头像
+      photo: '',
+      // 名称
+      name: ''
     }
+  },
+  created () {
+    // eslint-disable-next-line no-undef
+    const user = local.getUser() || {}
+    this.photo = user.photo
+    this.name = user.name
   },
   methods: {
     toggleMenu () {

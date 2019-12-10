@@ -76,6 +76,11 @@
         </el-table-column>
       </el-table>
       <!-- 分页 -->
+      <!-- layout="prev, pager, next" 当前分页组包含的布局 -->
+      <!-- total 总条数 -->
+      <!-- page-size 默认一页显示10条 -->
+      <!-- current-page 指定当前激活的按钮 -->
+      <!-- @current-change 作用：当页码发生改变触发  默认传入当前新的页码 -->
       <el-pagination
         style="margin-top:20px"
         background
@@ -94,9 +99,10 @@ export default {
   data () {
     return {
       // 提交给后台的参数对象
+      // 由axios进行数据提交，字段的值null，axios是不会提交该字段
       reqParams: {
         status: null,
-        channel_id: 2,
+        channel_id: null,
         begin_pubdate: null,
         end_pubdate: null,
         // 当前页码
@@ -119,6 +125,15 @@ export default {
     this.getArticles()
   },
   methods: {
+    // // 获取频道选项数据
+    // async getChannelOptions () {
+    //   // 获取数据
+    //   const {
+    //     data: { data }
+    //   } = await this.$http.get('channels')
+    //   // 赋值 channelOptions
+    //   this.channelOptions = data.channels
+    // },
     // 获取文章列表数据
     async getArticles () {
       // 获取数据
@@ -140,6 +155,9 @@ export default {
     // 选择日期
     changeDate (dateArr) {
       // dateArr 是数组 [date,date]  起始时间  结束时间
+      // 我们需要： dateArr 是数组 [string,string]  string === '2019-10-02'
+      // value-form="yyyy-MM-dd" 格式转换成功
+      // 注意：清空日期之后，dateArr是null  对应的 begin end 值也该为null
       if (dateArr) {
         this.reqParams.begin_pubdate = dateArr[0]
         this.reqParams.end_pubdate = dateArr[1]
@@ -151,6 +169,7 @@ export default {
     // 筛选
     search () {
       // 获取筛选数据（准备日期数据）
+      // 处理频道空字符串问题
       if (this.reqParams.channel_id === '') this.reqParams.channel_id = null
       // 把页码换成1
       this.reqParams.page = 1
@@ -158,6 +177,9 @@ export default {
     },
     // 去编辑
     toEdit (id) {
+      // 第一种  query传参方式
+      // this.$router.push(`/publish?id=${id}`)
+      // 第二种  query传参方式
       this.$router.push({ path: '/publish', query: { id } })
     },
     // 删除

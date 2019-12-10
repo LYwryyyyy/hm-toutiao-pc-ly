@@ -14,6 +14,7 @@ import Welcome from '@/views/welcome'
 import Contents from '@/views/contents'
 // 素材页面
 import Sources from '@/views/sources'
+import Publish from '@/views/publish'
 // 404
 import notFound from '@/views/404'
 
@@ -45,6 +46,10 @@ const router = new VueRouter({
           // 素材页面
           path: '/sources',
           component: Sources
+        },
+        {
+          path: '/publish',
+          component: Publish
         }
       ]
     },

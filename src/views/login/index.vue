@@ -62,23 +62,15 @@ export default {
   methods: {
     //   对整个表单进行校验
     login () {
-      this.$refs['loginForm'].validate(valid => {
+      this.$refs['loginForm'].validate(async valid => {
         if (valid) {
-          // 校验成功 进行登录，发送请求
-          // post(url,参数对象)
-          // get(url,{params:参数对象})
-          //   promise成功后下一步.then()
-          this.$http
-            .post('authorizations', this.LoginForm)
-            .then(res => {
-              // 保存用户信息(token数据)
-              local.setUser(res.data.data)
-              //   成功
-              this.$router.push('/')
-            })
-            .catch(() => {
-              this.$message.error('手机号或验证码输入错误')
-            })
+          try {
+            const { data: { data } } = await this.$http.post('authorizations,this.LoginForm')
+            local.steUser(data)
+            this.$router.push('/')
+          } catch (e) {
+            this.$message.error('手机号或验证码错误')
+          }
         }
       })
     }
